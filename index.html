@@ -5,18 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timsort Visualizer</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-        .container { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h1 { text-align: center; }
-        #array { display: flex; align-items: flex-end; height: 350px; margin: 30px 0; border: 1px solid #eee; border-radius: 8px; background: #fafafa; }
-        .bar { flex: 1; margin: 0 2px; background: #3498db; border-radius: 3px 3px 0 0; transition: height 0.2s, background 0.2s; }
-        .bar.active { background: #e67e22; }
-        .bar.sorted { background: #2ecc71; }
+        :root {
+            --bg: #181c20;
+            --container-bg: #23272e;
+            --text: #e0e6ed;
+            --accent: #3498db;
+            --accent-hover: #217dbb;
+            --bar: #3498db;
+            --bar-active: #e67e22;
+            --bar-sorted: #2ecc71;
+            --border: #22272e;
+            --input-bg: #23272e;
+            --input-border: #444b53;
+        }
+        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
+        .container { max-width: 900px; margin: 40px auto; background: var(--container-bg); padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: var(--text); }
+        #array { display: flex; align-items: flex-end; height: 350px; margin: 30px 0; border: 1px solid var(--border); border-radius: 8px; background: #1a1e23; }
+        .bar { flex: 1; margin: 0 2px; background: var(--bar); border-radius: 3px 3px 0 0; transition: height 0.35s cubic-bezier(0.4,0,0.2,1), background 0.15s; }
+        .bar.active { background: var(--bar-active); }
+        .bar.sorted { background: var(--bar-sorted); }
         .controls { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        button, input[type=range] { padding: 10px 18px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; }
-        button { background: #3498db; color: #fff; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: #217dbb; }
-        label { margin-right: 10px; }
+        button, input[type=range] { padding: 10px 18px; font-size: 1rem; border-radius: 5px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); }
+        button { background: var(--accent); color: #fff; cursor: pointer; transition: background 0.2s; border: none; }
+        button:hover { background: var(--accent-hover); }
+        label { margin-right: 10px; color: var(--text); }
+        input[type=range] { accent-color: var(--accent); background: var(--input-bg); }
+        p { color: #b0b8c1; }
     </style>
 </head>
 <body>
@@ -24,8 +39,10 @@
         <h1>Timsort Visualizer</h1>
         <div class="controls">
             <button id="randomize">Randomize</button>
+            <button id="shuffle">Shuffle</button>
             <button id="sort">Visualize Timsort</button>
             <label>Size: <input type="range" id="size" min="10" max="80" value="40"></label>
+            <label>Speed: <input type="range" id="speed" min="1" max="99" value="80"></label>
         </div>
         <div id="array"></div>
         <p style="text-align:center; color:#888;">Timsort is a hybrid stable sorting algorithm, derived from merge sort and insertion sort, used in Python and JavaScript engines.</p>

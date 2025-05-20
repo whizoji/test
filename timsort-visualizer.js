@@ -9,12 +9,22 @@ const sortBtn = document.getElementById('sort');
 console.log('sortBtn:', sortBtn);
 const sizeSlider = document.getElementById('size');
 console.log('sizeSlider:', sizeSlider);
+const shuffleBtn = document.getElementById('shuffle');
+const speedSlider = document.getElementById('speed');
 
 let arr = [];
-let delay = 20;
+let delay = 8;
 
 function randomArray(size) {
     arr = Array.from({length: size}, () => Math.floor(Math.random() * 320) + 30);
+    renderArray();
+}
+
+function shuffleArray() {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
     renderArray();
 }
 
@@ -24,6 +34,8 @@ function renderArray(activeIndices = [], sortedIndices = []) {
         const bar = document.createElement('div');
         bar.className = 'bar';
         bar.style.height = val + 'px';
+        // Smoother animation: longer transition for height, shorter for color
+        bar.style.transition = `height 0.35s cubic-bezier(0.4,0,0.2,1), background 0.15s`;
         if (activeIndices.includes(idx)) bar.classList.add('active');
         if (sortedIndices.includes(idx)) bar.classList.add('sorted');
         arrayContainer.appendChild(bar);
@@ -31,6 +43,11 @@ function renderArray(activeIndices = [], sortedIndices = []) {
 }
 
 randomizeBtn.onclick = () => randomArray(Number(sizeSlider.value));
+shuffleBtn.onclick = () => shuffleArray();
+speedSlider.oninput = () => {
+    delay = 100 - Number(speedSlider.value);
+    if (delay < 2) delay = 2;
+};
 sizeSlider.oninput = () => randomArray(Number(sizeSlider.value));
 
 // --- Timsort Implementation for Visualization ---
